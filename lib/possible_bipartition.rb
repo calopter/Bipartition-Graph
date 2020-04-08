@@ -1,12 +1,12 @@
 def bipartite? adj, i, colors
   q = [i]
-  colors[i] = 1
+  colors[i] = true
 
   while !q.empty?
     u = q.shift
     adj[u].each do |v|
-      if colors[v] == -1
-        colors[v] = 1 - colors[u]
+      if colors[v] == nil
+        colors[v] = !colors[u]
         q << v
       elsif colors[u] == colors[v]
         return false
@@ -17,10 +17,10 @@ def bipartite? adj, i, colors
 end
 
 def possible_bipartition dislikes
-  colors = Array.new(dislikes.length, -1)
+  colors = []
 
   dislikes.each_index do |i|
-    if colors[i] == -1
+    if colors[i] == nil
       return false unless bipartite? dislikes, i, colors
     end
   end
